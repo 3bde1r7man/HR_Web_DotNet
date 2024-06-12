@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'style/projectStyle.css' %}">
+        <title>Projects</title>
+    </head>
+    <body>
+        <div>
+            <a href="{% url 'home' %}"> Human Resources </a>
+        </div>
+        <div>
+            <a href="studhome.html">Student Affairs</a>
+        </div>
+        <div>
+            <a href="higherhome.html">Higher studies</a>
+        </div>
+        <div>
+            <a href="labhome.html">Laboratory tracking</a>
+        </div>
+    </body>
+    <img src="{% static 'shapes/shape_left.png' %}" id="s1">
+    <img src="{% static 'shapes/shape_right.png' %}" id="s2">
+</html>

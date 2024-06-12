@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>add employee</title>
+        <meta name = "discription" content="adding new employee data"/>
+        <link rel = "stylesheet" href="{% static 'style/page2.css' %}">
+        <link rel="stylesheet" 
+        href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel = "stylesheet" href="{% static 'style/navStyle.css' %}">
+        
+    </head>
+    <body>
+        {% include 'partials/_header2.html' %}
+        <div>
+            <h1>Add employee !</h1>
+        </div>
+        
+        <div class ="f"></div>
+        <form method = 'POST'>
+            {% csrf_token %}
+            <div class = "k">
+                
+                <div class="a">
+                    <i class="fa fa-user icon" style="font-size: 1.5em;"></i>
+                    {{ form.material_status }}
+                </div>
+                <div class="b">
+                    <i class="fa fa-user icon" style="font-size: 1.5em;"></i>
+                    {{ form.gender }}
+                </div>
+                <div class="c">
+                    <i class="fa fa-phone"style="font-size: 1.5em;"></i>
+                    {{form.phone}}
+                </div>
+                <div class="d">
+                    <i class="fa fa-calendar" style="font-size: 1.5em;"></i>
+                    {{form.vcation_days}}
+                </div>
+                <div class="e">
+                    <i class="fa fa-calendar" style="font-size: 1.5em;"></i>
+                    {{form.approved_vacation}}
+                </div>
+                <div class="g">
+                    <i class="fa fa-calendar" style="font-size: 1.5em;"></i>
+                    {{form.date}}
+                </div>
+                <div class="h">
+                    <i class="fa fa-dollar" style="font-size: 1.5em;"></i>
+                    {{form.salary}}
+                </div>
+            </div>
+            <button type="submit" class="button">Creat account</button>
+        </form>
+        <img src="{% static 'shapes/shape1.png' %}" class="i" alt="shape" >
+        <img src="{% static 'shapes/shape1.png' %}" class="i1" alt="shape">
+        <img src="{% static 'shapes/shape3.png' %}" class="i3" alt="shape">
+        <script src="{% static 'js/data.js' %}"></script>
+    </body>
+</html>

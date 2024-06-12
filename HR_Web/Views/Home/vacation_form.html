@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <nav >
+      <div class="nav" style="background-color:#005bea; height: 90px;; margin-left:-10px; margin-top: -9px; margin-right: -10px; ">
+        
+        <a href="{% url 'home' %}" style="color: white;">
+          Home Page
+        </a>
+        <a href="{% url 'add' %}" style="color: white;">
+          Add Employee
+        </a>
+        <a href="{% url 'search' %}" style="color: white;">
+          Search For Employee
+        </a>
+        <a href="{% url 'request' %}" style="color: white;">
+          Submitted Vacations
+        </a>
+      </div>
+    </nav>
+ 
+  <link rel =" stylesheet" href="{% static 'style/vacation_form.css' %}">
+  <link rel =" stylesheet" href="{% static 'style/navStyle.css' %}">
+  <title> Vacation Form </title>
+</head>
+  <body>
+    
+    <div class="backgr"> <h1> Vacation Form </h1> </div>
+    <div class="idd">
+      <input type="text" id="emp-ID" class="eid" required name="id" disabled placeholder="ID" value="{{ emp_id }}">
+    </div>
+  
+    <br>
+  
+    <div class="empname">
+        <input type="text" class="en" id="emp-Name" required name="Employee name" disabled placeholder="Name" value="{{ emp_Name }}">
+    </div>
+  
+    <br>
+    <form method='POST' onsubmit=s()>
+      {% csrf_token %}
+  
+    
+      <div class="fDate">
+      {{form.from_date}}
+      </div>
+  
+        <br>
+  
+      <div class="tDate">
+        {{form.to_date}}
+      </div>
+    
+      <div class="reason">
+        {{form.Reason}}
+      </div>
+  
+      <br>  <br>
+      
+      <input type="submit" class="sub" >
+    
+    </form>
+        
+    <img src="{% static 'shapes/shape2.png' %}" class="sh2" alt="shape">
+    <img src="{% static 'shapes/shape1_right.png' %}" class="sh1_r" alt="shape">
+    <img src="{% static 'shapes/shape1_left.png' %}" class="sh1_l" alt="shape">
+  
+    <script src="{% static 'js/vac_form.js' %}"> </script>
+  </body>
+  
+</html>

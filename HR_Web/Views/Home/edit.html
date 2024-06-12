@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Employee</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Norican&display=swap"
+    rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'style/editStyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'style/navStyle.css' %}" />
+  </head>
+  <header>
+      {% include '../Shared/_header2.html' %}
+  </header>
+  <body>
+    <div class="office-img">
+      <img src="{% static 'shapes/edit.jpg' %}" alt="officeimg" />
+    </div>
+    <div class="form-container">
+      <h1>Edit Employee</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <i class="fa fa-user icon" style="font-size: 1.5em"></i>
+          {{form.firstname}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-user icon" style="font-size: 1.5em"></i>
+          {{form.lastname}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-envelope" style="font-size: 1.5em"></i>
+          {{form.email}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-map-marker" style="font-size: 1.5em"></i>
+          {{form.address}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-phone" style="font-size: 1.5em"></i>
+          {{form.phone}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-calendar" style="font-size: 1.5em"></i>
+          {{form.vcation_days}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-calendar" style="font-size: 1.5em"></i>
+          {{form.approved_vacation}}
+          <span id="error-message" style="display: block; color: grey"></span>
+        </div>
+        <div class="form-group">
+          <i class="fa fa-dollar" style="font-size: 1.5em"></i>
+          {{form.salary}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-calendar" style="font-size: 1.5em"></i>
+          {{form.date}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-user icon" style="font-size: 1.5em"></i>
+          {{form.gender}}
+        </div>
+        <div class="form-group">
+          <i class="fa fa-user icon" style="font-size: 1.5em"></i>
+          {{form.material_status}}
+        </div>
+        <div class="form-group button-container">
+          <script>
+            var csrf_token = "{{csrf_token}}";
+          </script>
+          <button type="submit" class="button">Save</button>
+          <a onclick="del('{% url 'delete' pk=pk %}')" style="text-align: center;" class="button" href="{%url 'search' %}">Delete</a>
+        </div>
+      </form>
+      <img src="{% static 'shapes/shapes.png' %}" class="wave">
+    </div>
+  </body>
+  <script src="{% static 'js/edit.js' %}">
+  </script>
+</html>
