@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 @media (min-width: 768px) {
@@ -19,4 +19,44 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.welcome {
+    font-family: Hey Comic;
+}
+
+li, h2 {
+    font-family: Liberation Sans;
+}
+
+/* Align navigation links with flex */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for nav links */
+.nav-link {
+    color: #2c2c2c !important;
+    text-align: center;
+    padding: 7px 10px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 1em;
+    border-radius: 10px;
+}
+
+/* Active state for nav links */
+.nav-link.active {
+    background-color: #67a7ff;
+    border-radius: 5px;
+    height: fit-content;
+    padding: 3%;
+}
+
+/* Hover effect for nav links */
+.nav-link:hover {
+    background-color: rgba(35, 0, 235, 0.1);
+    border-radius: 10px;
+    height: fit-content;
 }
