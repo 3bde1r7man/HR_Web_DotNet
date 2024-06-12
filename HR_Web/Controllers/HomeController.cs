@@ -41,9 +41,18 @@ namespace HR_Web.Controllers
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
-            if (string.IsNullOrEmpty(employee.FirstName) || string.IsNullOrEmpty(employee.LastName) || string.IsNullOrEmpty(employee.Email) || string.IsNullOrEmpty(employee.Phone))
+            if (string.IsNullOrEmpty(employee.FirstName) || string.IsNullOrEmpty(employee.LastName) || 
+                string.IsNullOrEmpty(employee.Email) || string.IsNullOrEmpty(employee.Phone) ||
+                string.IsNullOrEmpty(employee.Marital) || string.IsNullOrEmpty(employee.Gender) ||
+                string.IsNullOrEmpty(employee.Address) || employee.Salary <= 0 ||
+                employee.VacationDays == 0 || employee.ApprovedVacation < 0)
             {
                 ViewBag.ErrorMessage = "Please fill all fields.";
+                return View();
+            }
+            if(!new GenderValidator().ValidateGender(employee.Gender) || !new MaritalValidator().ValidateMarital(employee.Marital))
+            {
+                ViewBag.ErrorMessage = "Invalid Gender or Marital status.";
                 return View();
             }
             if (!new EmailValidator().ValidateEmail(employee.Email) || !new PhoneValidator().ValidatePhoneNumber(employee.Phone))
@@ -51,7 +60,6 @@ namespace HR_Web.Controllers
                 ViewBag.ErrorMessage = "Invalid email or phone number.";
                 return View();
             }
-
             using (var db = new HRContext())
             {
                 db.Employees.Add(employee);
@@ -91,6 +99,8 @@ namespace HR_Web.Controllers
             var employees = employeesQuery.ToList();
             return View("Search", employees);
         }
+
+
 
     }
 }

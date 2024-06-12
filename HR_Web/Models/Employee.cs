@@ -14,7 +14,7 @@
 
 
 
-        public string Material { get; set; }
+        public string Marital { get; set; }
         public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
@@ -24,7 +24,7 @@
         {
         }
 
-        public Employee(int id, string firstName, string lastName, string email, string phone, double salary, int vacationDays, int approvedVacation, string material, string gender, string dob, string address)
+        public Employee(int id, string firstName, string lastName, string email, string phone, double salary, int vacationDays, int approvedVacation, string marital, string gender, string dob, string address)
         {
             this.Id = id;
             this.FirstName = firstName;
@@ -34,7 +34,7 @@
             this.Salary = salary;
             this.VacationDays = vacationDays;
             this.ApprovedVacation = approvedVacation;
-            this.Material = material;
+            this.Marital = marital;
             this.Gender = gender;
             this.BirthDate = DateTime.Parse(dob);
             this.Address = address;
