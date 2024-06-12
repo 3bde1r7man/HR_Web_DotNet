@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR_Web.Models
 {
-    public class EmployeeContext : DbContext
+    public class HRContext : DbContext
     {
         public DbSet<Employee> Employees { get; set; }
 

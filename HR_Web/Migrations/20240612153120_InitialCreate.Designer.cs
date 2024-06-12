@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HR_Web.Migrations
 {
-    [DbContext(typeof(EmployeeContext))]
-    [Migration("20240612124205_InitialCreate")]
+    [DbContext(typeof(HRContext))]
+    [Migration("20240612153120_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,6 +26,16 @@ namespace HR_Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ApprovedVacation")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -34,7 +44,15 @@ namespace HR_Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Material")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -42,28 +60,10 @@ namespace HR_Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("aprrovedVacationDays")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("birthDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("gender")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("material")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("salary")
+                    b.Property<double>("Salary")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("vacationDays")
+                    b.Property<int>("VacationDays")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

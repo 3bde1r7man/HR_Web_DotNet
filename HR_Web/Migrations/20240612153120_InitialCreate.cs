@@ -21,13 +21,13 @@ namespace HR_Web.Migrations
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Phone = table.Column<string>(type: "TEXT", nullable: false),
-                    salary = table.Column<double>(type: "REAL", nullable: false),
-                    vacationDays = table.Column<int>(type: "INTEGER", nullable: false),
-                    aprrovedVacationDays = table.Column<int>(type: "INTEGER", nullable: false),
-                    material = table.Column<string>(type: "TEXT", nullable: false),
-                    gender = table.Column<string>(type: "TEXT", nullable: false),
-                    birthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    address = table.Column<string>(type: "TEXT", nullable: false)
+                    Salary = table.Column<double>(type: "REAL", nullable: false),
+                    VacationDays = table.Column<int>(type: "INTEGER", nullable: false),
+                    ApprovedVacation = table.Column<int>(type: "INTEGER", nullable: false),
+                    Material = table.Column<string>(type: "TEXT", nullable: false),
+                    Gender = table.Column<string>(type: "TEXT", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Address = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
