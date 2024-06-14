@@ -65,6 +65,7 @@ namespace HR_Web.Controllers
                 db.Employees.Add(employee);
                 db.SaveChanges();
             }
+            ViewBag.SuccessMessage = "Employee added successfully!";
             return View();
         }
 
@@ -100,7 +101,91 @@ namespace HR_Web.Controllers
             return View("Search", employees);
         }
 
+        public IActionResult VacationForm(int id)
+        {
+            // get the employee by id and send the emp name and id to the view
+            using (var db = new HRContext())
+            {
+                var employee = db.Employees.Find(id);
+                if (employee == null)
+                {
+                    ViewBag.ErrorMessage = "Employee not found.";
+                    return View();
+                }
+                ViewBag.EmployeeId = employee.Id;
+                ViewBag.EmployeeName = employee.FirstName + " " + employee.LastName;
+            }
+            return View(); 
+        }
 
 
+        [HttpPost]
+        public IActionResult VacationForm(Vacation vacation)
+        {
+            
+
+            if (vacation.EmployeeId == 0 || vacation.StartDate == DateTime.MinValue || vacation.EndDate == DateTime.MinValue)
+            {
+                ViewBag.ErrorMessage = "Please fill all fields.";
+                return View();
+            }
+            if (vacation.StartDate >= vacation.EndDate)
+            {
+                ViewBag.ErrorMessage = "Start date must be before end date.";
+                return View();
+            }
+            using (var db = new HRContext())
+            {
+                db.Vacations.Add(vacation);
+                db.SaveChanges();
+            }
+            ViewBag.SuccessMessage = "Vacation added successfully!";
+            // return to the search page
+            return Redirect("SearchEmployee");
+        }
+
+        public IActionResult Vacations()
+        {
+            using (var db = new HRContext())
+            {
+                var vacations = db.Vacations.ToList();
+                return View(vacations);
+            }
+        }
+
+
+        public IActionResult ApproveVacation(int id)
+        {
+            using (var db = new HRContext())
+            {
+                var vacation = db.Vacations.Find(id);
+                if (vacation == null)
+                {
+                    ViewBag.ErrorMessage = "Vacation not found.";
+                    return Redirect("Vacations");
+                }
+                vacation.Status = "Approved";
+                db.SaveChanges();
+            }
+            ViewBag.SuccessMessage = "Vacation approved successfully!";
+            return Redirect("/home/Vacations");
+        }
+
+        public IActionResult RejectVacation(int id)
+        {
+            using (var db = new HRContext())
+            {
+                var vacation = db.Vacations.Find(id);
+                if (vacation == null)
+                {
+                    ViewBag.ErrorMessage = "Vacation not found.";
+                    return Redirect("Vacations");
+                }
+                vacation.Status = "Rejected";
+                db.SaveChanges();
+            }
+            ViewBag.SuccessMessage = "Vacation rejected successfully!";
+            return Redirect("/home/Vacations");
+        }
     }
 }

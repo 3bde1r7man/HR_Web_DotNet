@@ -8,10 +8,12 @@ namespace HR_Web.Models
     {
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<Vacation> Vacations { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string projectRootDirectory = Directory.GetParent(AppContext.BaseDirectory).Parent.Parent.Parent.FullName;
-            string databaseDirectory = System.IO.Path.Combine(projectRootDirectory, "dp");
+            string databaseDirectory = System.IO.Path.Combine(projectRootDirectory, "db");
 
             // Ensure the 'dp' directory exists
             if (!Directory.Exists(databaseDirectory))

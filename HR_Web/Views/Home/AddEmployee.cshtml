@@ -13,6 +13,12 @@
             @ViewBag.ErrorMessage
         </div>
     }
+    @if(!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+	{
+		<div class="alert alert-success" role="alert">
+			@ViewBag.SuccessMessage
+		</div>
+	}
 
     <h2>@ViewData["Title"]</h2>
 
@@ -47,6 +53,9 @@
                 <option value="">-- Select Material Status --</option>
                 <option value="Single">Single</option>
                 <option value="Married">Married</option>
+                <option value="Windowed">Windowed</option>
+                <option value="Divorced">Divorced</option>
+                <option value="Separated">Separated</option>
             </select>
             <span asp-validation-for="Marital" class="text-danger"></span>
         </div>
