@@ -1,33 +1,32 @@
 ﻿
 @model HR_Web.Models.Employee
 @{
-    ViewData["Title"] = "Add Employee";
+    ViewData["Title"] = "Edit Employee";
 }
 
-
-
 <div class="container">
-    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.ErrorMessage
-        </div>
-    }
-    @if(!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+	@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewBag.ErrorMessage
+		</div>
+	}
+	@if(!string.IsNullOrEmpty(ViewBag.SuccessMessage))
 	{
 		<div class="alert alert-success" role="alert">
 			@ViewBag.SuccessMessage
 		</div>
 	}
 
-    <h2>@ViewData["Title"]</h2>
-
-    <form action="/home/addemployee" method="post">
+	<h2>@ViewData["Title"]</h2>
+	
+    <form id="updateForm" action="@Url.Action("UpdateEmployee", "Home")">
+        <input type="hidden" asp-for="Id" />
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" placeholder="First name" />
+                    <input asp-for="FirstName" class="form-control" placeholder="First Name" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
@@ -138,7 +137,21 @@
                 </div>
             </div>
         </div>
+        
+    </form>
+    <form id="deleteForm" action="@Url.Action("DeleteEmployee", "Home")">
+        <input type="hidden" asp-for="Id" />
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Employee</button>
     </form>
 </div>
 
 
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            if (confirm('Are you sure you want to delete this employee?')) {
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
+}
