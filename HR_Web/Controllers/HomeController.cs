@@ -11,6 +11,7 @@ namespace HR_Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private HRContext _context = new HRContext();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -60,11 +61,10 @@ namespace HR_Web.Controllers
                 ViewBag.ErrorMessage = "Invalid email or phone number.";
                 return View();
             }
-            using (var db = new HRContext())
-            {
-                db.Employees.Add(employee);
-                db.SaveChanges();
-            }
+
+            _context.Employees.Add(employee);
+            _context.SaveChanges();
+            
             ViewBag.SuccessMessage = "Employee added successfully!";
             return View();
         }
@@ -74,11 +74,12 @@ namespace HR_Web.Controllers
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
-                return View("Search", Enumerable.Empty<Employee>());
+                return View("Search", _context.Employees.ToList());
             }
 
+            IQueryable<Employee> employeesQuery = _context.Employees;
             var queryParts = searchQuery.Trim().Split();
-            IQueryable<Employee> employeesQuery = new HRContext().Employees;
+            
 
             if (queryParts.Length == 2)
             {
@@ -103,18 +104,17 @@ namespace HR_Web.Controllers
 
         public IActionResult VacationForm(int id)
         {
-            // get the employee by id and send the emp name and id to the view
-            using (var db = new HRContext())
+            
+          
+            var employee = _context.Employees.Find(id);
+            if (employee == null)
             {
-                var employee = db.Employees.Find(id);
-                if (employee == null)
-                {
-                    ViewBag.ErrorMessage = "Employee not found.";
-                    return View();
-                }
-                ViewBag.EmployeeId = employee.Id;
-                ViewBag.EmployeeName = employee.FirstName + " " + employee.LastName;
+                ViewBag.ErrorMessage = "Employee not found.";
+                return View();
             }
+            ViewBag.EmployeeId = employee.Id;
+            ViewBag.EmployeeName = employee.FirstName + " " + employee.LastName;
+            
             return View(); 
         }
 
@@ -134,14 +134,12 @@ namespace HR_Web.Controllers
                 ViewBag.ErrorMessage = "Start date must be before end date.";
                 return View();
             }
-            using (var db = new HRContext())
-            {
-                db.Vacations.Add(vacation);
-                db.SaveChanges();
-            }
+            _context.Vacations.Add(vacation);
+            _context.SaveChanges();
+            
             ViewBag.SuccessMessage = "Vacation added successfully!";
-            // return to the search page
-            return Redirect("SearchEmployee");
+
+            return View("Search", _context.Employees.ToList());
         }
 
         public IActionResult Vacations()
@@ -156,19 +154,18 @@ namespace HR_Web.Controllers
 
         public IActionResult ApproveVacation(int id)
         {
-            using (var db = new HRContext())
+            
+            var vacation = _context.Vacations.Find(id);
+            if (vacation == null)
             {
-                var vacation = db.Vacations.Find(id);
-                if (vacation == null)
-                {
-                    ViewBag.ErrorMessage = "Vacation not found.";
-                    return Redirect("Vacations");
-                }
-                vacation.Status = "Approved";
-                db.SaveChanges();
+                ViewBag.ErrorMessage = "Vacation not found.";
+                return View("Vacations", _context.Vacations.ToList());
             }
+            vacation.Status = "Approved";
+            _context.SaveChanges();
+            
             ViewBag.SuccessMessage = "Vacation approved successfully!";
-            return Redirect("/home/Vacations");
+            return View("Vacations", _context.Vacations.ToList());
         }
 
         public IActionResult RejectVacation(int id)
@@ -179,13 +176,89 @@ namespace HR_Web.Controllers
                 if (vacation == null)
                 {
                     ViewBag.ErrorMessage = "Vacation not found.";
-                    return Redirect("Vacations");
+                    return View("Vacations", db.Vacations.ToList());
                 }
                 vacation.Status = "Rejected";
                 db.SaveChanges();
             }
             ViewBag.SuccessMessage = "Vacation rejected successfully!";
-            return Redirect("/home/Vacations");
+            return View("Vacations", _context.Vacations.ToList());
+        }
+        
+        public IActionResult EditEmployee(int id)
+        {
+            using (var db = new HRContext())
+            {
+                var emp = db.Employees.Find(id);
+                if (emp == null)
+                {
+                    ViewBag.ErrorMessage = "Employee not found.";
+                    return View();
+                }
+                return View(emp);
+            }
+        }
+
+        public IActionResult UpdateEmployee(Employee employee)
+        {
+            if (string.IsNullOrEmpty(employee.FirstName) || string.IsNullOrEmpty(employee.LastName) ||
+                string.IsNullOrEmpty(employee.Email) || string.IsNullOrEmpty(employee.Phone) ||
+                string.IsNullOrEmpty(employee.Marital) || string.IsNullOrEmpty(employee.Address) || employee.Salary <= 0 ||
+                employee.VacationDays == 0 || employee.ApprovedVacation < 0)
+            {
+                ViewBag.ErrorMessage = "Please fill all fields.";
+                return View("EditEmployee");
+            }
+
+            if (!new GenderValidator().ValidateGender(employee.Gender) || !new MaritalValidator().ValidateMarital(employee.Marital))
+            {
+                ViewBag.ErrorMessage = "Invalid Gender or Marital status.";
+                return View("EditEmployee");
+            }
+            if (!new EmailValidator().ValidateEmail(employee.Email) || !new PhoneValidator().ValidatePhoneNumber(employee.Phone))
+            {
+                ViewBag.ErrorMessage = "Invalid email or phone number.";
+                return View("EditEmployee");
+            }
+
+            
+            var emp = _context.Employees.Find(employee.Id);
+            if (emp == null)
+            {
+                ViewBag.ErrorMessage = "Employee not found.";
+                return View("EditEmployee");
+            }
+            emp.FirstName = employee.FirstName;
+            emp.LastName = employee.LastName;
+            emp.Email = employee.Email;
+            emp.Phone = employee.Phone;
+            emp.Marital = employee.Marital;
+            emp.Address = employee.Address;
+            emp.Salary = employee.Salary;
+            emp.Gender = employee.Gender;
+            emp.VacationDays = employee.VacationDays;
+            emp.ApprovedVacation = employee.ApprovedVacation;
+            _context.SaveChanges();
+            
+            ViewBag.SuccessMessage = "Employee updated successfully!";
+            return View("Search", _context.Employees.ToList());
+        }
+
+        public IActionResult DeleteEmployee(int id)
+        {
+            using (var db = new HRContext())
+            {
+                var emp = db.Employees.Find(id);
+                if (emp == null)
+                {
+                    ViewBag.ErrorMessage = "Employee not found.";
+                    return View("EditEmployee");
+                }
+                db.Employees.Remove(emp);
+                db.SaveChanges();
+            }
+            ViewBag.SuccessMessage = "Employee deleted successfully!";
+            return View("Search", _context.Employees.ToList());
         }
     }
 }

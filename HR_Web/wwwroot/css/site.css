@@ -1,5 +1,5 @@
 html {
-  font-size: 12px;
+  font-size: 16px;
 }
 
 @media (min-width: 768px) {
@@ -18,11 +18,13 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #f6faff;
+    margin-bottom: 60px;
 }
 
 .welcome {
     font-family: Hey Comic;
+    text-align : center;
 }
 
 tr:nth-child(even) {
@@ -67,4 +69,12 @@ li, h2 {
     background-color: rgba(35, 0, 235, 0.1);
     border-radius: 10px;
     height: fit-content;
+}
+
+.btn{
+    border-radius: 20px;
+}
+
+.form-control {
+    border-radius: 20px;
 }
