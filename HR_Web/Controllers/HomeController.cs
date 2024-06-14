@@ -161,42 +161,59 @@ namespace HR_Web.Controllers
                 ViewBag.ErrorMessage = "Vacation not found.";
                 return View("Vacations", _context.Vacations.ToList());
             }
-            vacation.Status = "Approved";
+            Employee employee = _context.Employees.Find(vacation.EmployeeId);
+            if (employee == null)
+            {
+                ViewBag.ErrorMessage = "Employee not found.";
+                return View("Vacations", _context.Vacations.ToList());
+            }
+
+            int numberOfDays = (vacation.EndDate - vacation.StartDate).Days;
+            if (employee.VacationDays - numberOfDays < 0)
+            {
+                ViewBag.ErrorMessage = "Not enough vacation days left.";
+                vacation.Status = "Rejected";
+            }
+            else
+            {
+                employee.VacationDays -= numberOfDays;
+                employee.ApprovedVacation += numberOfDays;
+                ViewBag.SuccessMessage = "Vacation approved successfully!";
+                vacation.Status = "Approved";
+            }
             _context.SaveChanges();
             
-            ViewBag.SuccessMessage = "Vacation approved successfully!";
+            
             return View("Vacations", _context.Vacations.ToList());
         }
 
         public IActionResult RejectVacation(int id)
         {
-            using (var db = new HRContext())
+           
+            var vacation = _context.Vacations.Find(id);
+            if (vacation == null)
             {
-                var vacation = db.Vacations.Find(id);
-                if (vacation == null)
-                {
-                    ViewBag.ErrorMessage = "Vacation not found.";
-                    return View("Vacations", db.Vacations.ToList());
-                }
-                vacation.Status = "Rejected";
-                db.SaveChanges();
+                ViewBag.ErrorMessage = "Vacation not found.";
+                return View("Vacations", _context.Vacations.ToList());
             }
+            vacation.Status = "Rejected";
+            _context.SaveChanges();
+            
             ViewBag.SuccessMessage = "Vacation rejected successfully!";
             return View("Vacations", _context.Vacations.ToList());
         }
         
         public IActionResult EditEmployee(int id)
         {
-            using (var db = new HRContext())
+            
+            var emp = _context.Employees.Find(id);
+            if (emp == null)
             {
-                var emp = db.Employees.Find(id);
-                if (emp == null)
-                {
-                    ViewBag.ErrorMessage = "Employee not found.";
-                    return View();
-                }
-                return View(emp);
+                ViewBag.ErrorMessage = "Employee not found.";
+                return View();
             }
+            return View(emp);
+            
         }
 
         public IActionResult UpdateEmployee(Employee employee)
@@ -246,17 +263,16 @@ namespace HR_Web.Controllers
 
         public IActionResult DeleteEmployee(int id)
         {
-            using (var db = new HRContext())
+           
+            var emp = _context.Employees.Find(id);
+            if (emp == null)
             {
-                var emp = db.Employees.Find(id);
-                if (emp == null)
-                {
-                    ViewBag.ErrorMessage = "Employee not found.";
-                    return View("EditEmployee");
-                }
-                db.Employees.Remove(emp);
-                db.SaveChanges();
+                ViewBag.ErrorMessage = "Employee not found.";
+                return View("EditEmployee");
             }
+            _context.Employees.Remove(emp);
+            _context.SaveChanges();
+            
             ViewBag.SuccessMessage = "Employee deleted successfully!";
             return View("Search", _context.Employees.ToList());
         }
