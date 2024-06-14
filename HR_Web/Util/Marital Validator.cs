@@ -4,7 +4,12 @@
     {
         public bool ValidateMarital(string marital)
         {
-            if (marital != "Single" && marital != "Married")
+            /*
+             ('widowed','widowed'),
+        ('divorced','divorced'),
+        ('separated','separated'),
+             */
+            if (marital != "Single" && marital != "Married" && marital != "Widowed" && marital != "Divorced" && marital != "Separated")
             {
                 return false;
             }

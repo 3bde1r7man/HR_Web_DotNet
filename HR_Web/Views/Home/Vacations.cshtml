@@ -1,0 +1,78 @@
+﻿
+
+
+@{
+	ViewData["Title"] = "Vacations";
+}
+@model IEnumerable<HR_Web.Models.Vacation>
+
+<div class="container">
+	@*show error or success*@
+
+	@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewBag.ErrorMessage
+		</div>
+	}
+	@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+	{
+		<div class="alert alert-success" role="alert">
+			@ViewBag.SuccessMessage
+		</div>
+	}
+
+
+	<h2 style="text-align : center">Vacations</h2>
+	
+	<table class="table">
+		<thead>
+			<tr>
+                <th> Employee ID </th>
+                <th> Name </th>
+                <th> From Date </th>
+                <th> To Date </th>
+                <th> Reason </th>
+                <th> Status </th>
+                <th> Actions </th>
+            </tr>
+        </thead>
+
+        <tbody>
+			@if(!Model.Any())
+			{
+					<tr>
+						<td colspan="7" style="text-align : center">No vacations found.</td>
+					</tr>
+			}
+			else
+			{
+					@foreach (var vacation in Model )
+					{
+						
+						<tr>
+							<td> @vacation.EmployeeId </td>
+							<td> @vacation.EmployeeName </td>
+							<td> @vacation.StartDate </td>
+							<td> @vacation.EndDate </td>
+							<td> @vacation.Reason </td>
+							<td> @vacation.Status </td>
+							@if (vacation.Status == "Pending")
+							{
+									<td>
+										<a asp-action="ApproveVacation" asp-controller="Home" asp-route-id="@vacation.Id" class="btn btn-primary">Approve</a>
+										<a asp-action="RejectVacation" asp-controller="Home" asp-route-id="@vacation.Id" class="btn btn-danger">Reject</a>
+									</td>
+							}
+							else
+							{
+									<td></td>
+							}
+						</tr>
+					}
+			}
+			
+		</tbody>
+	</table>
+
+</div>
