@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project aims to create a Human Resources website using the Django framework. The website allows users to manage employee data, submit and review vacation requests, and perform various HR-related tasks.
+This project aims to create a Human Resources website using DotNet framework. The website allows users to manage employee data, submit and review vacation requests, and perform various HR-related tasks.
 
 
 ## Functionalities
